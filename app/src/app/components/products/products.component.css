@@ -1,0 +1,19 @@
+.container {
+  display: grid;
+  place-items: center;
+  margin-top: 100px;
+}
+.table-head {
+  display: flex;
+  width: 786px;
+  height: 50px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 15px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+.table-body {
+  width: 790px;
+  margin-top: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}

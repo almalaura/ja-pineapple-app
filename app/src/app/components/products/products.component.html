@@ -1,1 +1,25 @@
-<p>products works!</p>
+<div [ngClass]="'container'">
+  <table>
+    <thead>
+      <tr [ngClass]="'table-head'">
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Unidad</th>
+        <th>Costo U.</th>
+        <th>Moneda</th>
+        <th>Categoria</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody [ngClass]="'table-body'">
+      <app-product-item></app-product-item>
+      <app-product-item></app-product-item>
+      <app-product-item></app-product-item>
+      <app-product-item></app-product-item>
+      <app-product-item></app-product-item>
+      <app-product-item></app-product-item>
+    </tbody>
+  </table>
+</div>
