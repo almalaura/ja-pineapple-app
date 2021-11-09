@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+.text-orange{
+  color: #FF9800!important;
+}
+.text-dark-orange{
+  color: #C66900!important;
+}
+.text-gray{
+  color: #455A64!important;
+}
+.text-gray-dark{
+  color: #1C313A!important;
+}
+.text-gray-base{
+  color: #414141!important;
+}
+.text-light{
+  color: #F1F8E9!important;
+}
+.text-green-light{
+  color: #82C0CC!important;
+}
+.bg-orange{
+  background-color: #FF9800!important;
+}
+.bg-dark-orange{
+  background-color: #C66900!important;
+}
+.bg-gray{
+  background-color: #455A64!important;
+}
+.bg-gray-dark{
+  background-color: #1C313A!important;
+}
+.bg-gray-base{
+  background-color: #414141!important;
+}
+.bg-light{
+  background-color: #F1F8E9!important;
+}
+.bg-green-light{
+  background-color: #82C0CC!important;
+}
+body{
+  margin: 0;
+}
+body, html {
+  height: 100%;
+}
