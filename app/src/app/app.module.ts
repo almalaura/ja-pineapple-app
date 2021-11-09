@@ -11,13 +11,16 @@ import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LogoutComponent } from './components/logout/logout.component';
+import { AuthGaurdService } from './service/auth-gaurd.service';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'products', component: ProductsComponent},
-  {path: 'users', component: UsersComponent},
+  {path: 'products', component: ProductsComponent,canActivate:[AuthGaurdService] },
+  {path: 'users', component: UsersComponent,canActivate:[AuthGaurdService] },
   {path: 'login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent,canActivate:[AuthGaurdService] },
   // Agregar cuando se agregue el html del formulario y se importe
   //{path: 'usuarios/form', component: FormUsersComponent},
   //{path: 'usuarios/form/:id', component: FormUsersComponent}
@@ -30,7 +33,8 @@ const routes: Routes = [
     ProductsComponent,
     HomeComponent,
     UsersComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
