@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../service/authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   username = ''
   password = ''
   invalidLogin = false
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private loginservice: AuthenticationService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   checkLogin() {
