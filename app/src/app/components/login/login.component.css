@@ -27,9 +27,6 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.form-control-rounded {
-    border-radius: 1.875rem!important;
-}
 .link {
     color: #82C0CC;
     text-decoration: none;
