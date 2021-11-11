@@ -47,3 +47,6 @@ body{
 body, html {
   height: 100%;
 }
+.form-control-rounded {
+    border-radius: 1.875rem!important;
+}

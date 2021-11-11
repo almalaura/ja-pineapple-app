@@ -6,19 +6,19 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
-  <!-- Habilitar items si se encuentra logueado el usuario --
+  <!-- Habilitar items si se encuentra logueado el usuario -->
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link"  routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/products">Productos</a>
+        <a class="nav-link"  routerLink="/products">Productos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/users">Usuarios</a>
+        <a class="nav-link"  routerLink="/users">Usuarios</a>
       </li>
     </ul>
-    <!-- /--->
+    <!-- *ngIf="loginService.isUserLoggedIn()" /--->
   </div>
 
   <div class="justify-content-end">
@@ -26,9 +26,9 @@
       <li class="nav-item d-flex">
         <a class="nav-link" routerLink="/login">Iniciar sesión</a>
       </li>
-      <!-- Habilitar si se encuentra logueado el usuario !--
+      <!-- Habilitar si se encuentra logueado el usuario !-->
       <li class="nav-item d-flex">
-        <a class="nav-link" routerLink="/login">Cerrar sesión</a>
+        <a class="nav-link"  routerLink="/login">Cerrar sesión</a>
       </li>
         <!-- /--->
     </ul>
