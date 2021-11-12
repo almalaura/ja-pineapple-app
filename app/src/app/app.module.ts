@@ -15,6 +15,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { AuthGaurdService } from './service/auth-gaurd.service';
+import { ResetPasswordComponent } from './components/login/reset-password.component';
+import { ForgotPasswordComponent } from './components/login/forgot-password.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -23,6 +25,8 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent,canActivate:[AuthGaurdService] },
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent,canActivate:[AuthGaurdService] },
+  {path: 'reset-password', component: ResetPasswordComponent},
+  {path: 'forgot-password', component: ForgotPasswordComponent},
   // Agregar cuando se agregue el html del formulario y se importe
   //{path: 'usuarios/form', component: FormUsersComponent},
   //{path: 'usuarios/form/:id', component: FormUsersComponent}
@@ -38,6 +42,8 @@ const routes: Routes = [
     LoginComponent,
     LogoutComponent,
     ProductItemComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
