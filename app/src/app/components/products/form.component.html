@@ -1,0 +1,67 @@
+<!-- Modal --
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+-->  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title text-center" id="staticBackdropLabel">{{title}}</h5>
+        <br>
+        <form>
+          <div class="col-12 form-row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div class="">
+                  <input type="text" class="form-control form-control-rounded" placeholder="Nombre del producto" name="nameproduct">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="validationDefault04">Categoría</label>
+                <select class="custom-select form-control-rounded" id="validationDefault04" required>
+                  <option selected disabled value="">Categoría...</option>
+                  <option>Lacteos</option>
+                  <option>Frutas</option>
+                  <option>Vegetales y Verduras</option>
+                  <option>Abarrotes</option>
+                  <option>Panadería</option>
+                  <option>Carnes</option>
+                  <option>Bebidas</option>
+                  <option>Bebés</option>
+                  <option>Limpieza</option>
+                  <option>Perfumería</option>
+                  <option>Farmacia</option>
+                  <option>Juguetería</option>
+                  <option>Otros</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <input type="number" class="form-control form-control-rounded" pattern='[0-9]+(\.[0-9][0-9]?)?' placeholder="Precio Unitario" name="priceUnit">
+                </div>
+                <div class="col-sm-6">
+                  <input type="number" class="form-control form-control-rounded" placeholder="Cantidad" name="quantity">
+                </div>
+              </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input form-control-rounded" id="picture" lang="es">
+                <label class="custom-file-label form-control-rounded" for="picture">Seleccionar Archivo</label>
+              </div>
+              <div class="mb-3">
+                <label for="description">Descipción</label>
+                <textarea class="form-control form-control-rounded" id="description" placeholder="Descripción"></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="col-12 row">
+          <button type="button" class="btn px-5 mr-5 text-white bg-orange form-control-rounded" data-dismiss="modal">CANCELAR</button>
+          <button class="btn px-5 text-white bg-green-light form-control-rounded" role="button">CREAR</button>
+
+          <ng-template #elseBlock>
+            <button class="btn px-5 text-white bg-green-light form-control-rounded" role="button">GUARDAR</button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -8,24 +8,30 @@ import { AuthenticationService } from '../../service/authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private loginservice: AuthenticationService
+  ) { }
 
-  username = ''
-  password = ''
-  invalidLogin = false
-
-  constructor(private router: Router,
-    private loginservice: AuthenticationService) { }
+  username: string = '';
+  password: string = '';
+  errorMessage = 'Datos invalidos';
+  invalidLogin = false;
 
   ngOnInit() {
   }
 
+  // Click iniciar sesión
   checkLogin() {
-    if (this.loginservice.authenticate(this.username, this.password)
-    ) {
-      this.router.navigate([''])
-      this.invalidLogin = false
-    } else
-      this.invalidLogin = true
+    console.log(this.username, this.password);
+    this.loginservice.authenticate(this.username, this.password).subscribe((result) => {
+      this.invalidLogin = false;
+      //Redireccionar a home
+      this.router.navigate(['home']);
+    }, () => {
+      //Mostrar mensaje de error
+      this.invalidLogin = true;
+    });
   }
 
 }

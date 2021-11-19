@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
-import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -11,26 +12,12 @@ import { ProductsComponent } from './components/products/products.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
 import { LoginComponent } from './components/login/login.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { LogoutComponent } from './components/logout/logout.component';
-import { AuthGaurdService } from './service/auth-gaurd.service';
 import { ResetPasswordComponent } from './components/login/reset-password.component';
 import { ForgotPasswordComponent } from './components/login/forgot-password.component';
 
-const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'products', component: ProductsComponent,canActivate:[AuthGaurdService] },
-  {path: 'users', component: UsersComponent,canActivate:[AuthGaurdService] },
-  {path: 'login', component: LoginComponent},
-  {path: 'logout', component: LogoutComponent,canActivate:[AuthGaurdService] },
-  {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  // Agregar cuando se agregue el html del formulario y se importe
-  //{path: 'usuarios/form', component: FormUsersComponent},
-  //{path: 'usuarios/form/:id', component: FormUsersComponent}
-];
+import { AuthGaurdService } from './service/auth-gaurd.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,9 +37,9 @@ const routes: Routes = [
     FontAwesomeModule,
     AppRoutingModule,
     NgbModule,
-    RouterModule.forRoot(routes)
+    FormsModule,
+    HttpClientModule,
   ],
-  exports: [RouterModule],
   providers: [],
   bootstrap: [AppComponent]
 })

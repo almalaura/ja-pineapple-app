@@ -1,19 +1,32 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthenticationService {
 
-  constructor() { }
+  public username: string = '';
+  public password: string = '';
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-  authenticate(username: any, password: any) {
-    if (username === "javainuse" && password === "password") {
-      sessionStorage.setItem('username', username)
-      return true;
-    } else {
-      return false;
-    }
+  constructor(private http: HttpClient) { }
+
+  authenticate(username: string, password: string) {
+    return this.http.post(environment.hostUrl + `/api/auth/signin`,{ username, password },
+    {headers: this.httpHeaders})
+    .pipe(map((res) => {
+      this.username = username;
+      this.password = password;
+      sessionStorage.setItem('username', username);
+    }));
+  }
+
+  createBasicAuthToken(username: string, password: string){
+    return 'Basic ' + window.btoa(username + ":" + password);
   }
 
   isUserLoggedIn() {
