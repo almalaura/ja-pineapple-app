@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdSortableHeader } from './directives/sortable.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -31,10 +33,12 @@ import { AuthGaurdService } from './service/auth-gaurd.service';
     ProductItemComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    NgbdSortableHeader,
   ],
   imports: [
     BrowserModule,
     FontAwesomeModule,
+    SweetAlert2Module,
     AppRoutingModule,
     NgbModule,
     FormsModule,

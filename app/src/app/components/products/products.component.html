@@ -1,25 +1,74 @@
-<div [ngClass]="'container'">
-  <table>
-    <thead>
-      <tr [ngClass]="'table-head'">
-        <th>Imagen</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Cantidad</th>
-        <th>Unidad</th>
-        <th>Costo U.</th>
-        <th>Moneda</th>
-        <th>Categoria</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody [ngClass]="'table-body'">
-      <app-product-item></app-product-item>
-      <app-product-item></app-product-item>
-      <app-product-item></app-product-item>
-      <app-product-item></app-product-item>
-      <app-product-item></app-product-item>
-      <app-product-item></app-product-item>
-    </tbody>
-  </table>
+<app-header></app-header>
+<hr>
+<div class="container my-3">
+  <div class="col-12">
+    <form>
+      <div class="form-group form-inline">
+        <div class="col-6">
+          Buscar: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="service.searchTerm"/>
+          <span class="ml-3" *ngIf="service.loading$ | async">Cargando...</span>
+        </div>
+          <div class="col-6">
+            <button type="button" class="btn bg-gray-base text-white form-control-rounded px-4 float-right">
+              <fa-icon [icon]="faFileExcel"></fa-icon>
+              EXPORTAR
+            </button>
+            <button type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
+              <fa-icon [icon]="faPlus"></fa-icon>
+              NUEVO
+            </button>
+          </div>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col" >Imagen</th>
+          <th scope="col" sortable="name" (sort)="onSort($event)">Nombre</th>
+          <th scope="col" sortable="description" (sort)="onSort($event)">Descripción</th>
+          <th scope="col" sortable="category" (sort)="onSort($event)">Categoría</th>
+          <th scope="col" sortable="quantity" (sort)="onSort($event)">Cantidad</th>
+          <th scope="col" sortable="unitPrice" (sort)="onSort($event)">Precio</th>
+          <th colspan="2" class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of products$ | async">
+          <td>
+            <img [src]="'https://picsum.photos/200/300?random=' + product.id" class="mr-2" style="width: 60px">
+          </td>
+          <td><ngb-highlight [result]="product.name" [term]="service.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="product.description" [term]="service.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="product.category" [term]="service.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="product.quantity | number" [term]="service.searchTerm"></ngb-highlight></td>
+          <td><ngb-highlight [result]="product.unitPrice | number" [term]="service.searchTerm"></ngb-highlight></td>
+          <td>
+            <button class="icon edit-btn" data-toggle="modal" data-target="#formProduct">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+          </td>
+          <td>
+            <button class="icon delete-btn" (click)='delete(product)'>
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
+
 </div>
