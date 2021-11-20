@@ -16,7 +16,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
   authenticate(username: string, password: string) {
-    return this.http.post(environment.hostUrl + `/api/auth/signin`,{ username, password },
+    return this.http.post(environment.hostUrl + `/auth/signin`,{ username, password },
     {headers: this.httpHeaders})
     .pipe(map((res) => {
       this.username = username;
@@ -32,7 +32,7 @@ export class AuthenticationService {
   isUserLoggedIn() {
     let user = sessionStorage.getItem('username')
     console.log(!(user === null))
-    return !(user === null)
+    return (user === null)
   }
 
   logOut() {
