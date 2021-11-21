@@ -13,7 +13,7 @@
               <fa-icon [icon]="faFileExcel"></fa-icon>
               EXPORTAR
             </button>
-            <button type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
+            <button data-toggle="modal" data-target="#formProduct" type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
               <fa-icon [icon]="faPlus"></fa-icon>
               NUEVO
             </button>
@@ -62,9 +62,9 @@
         </ngb-pagination>
 
         <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-          <option [ngValue]="2">2 items per page</option>
-          <option [ngValue]="4">4 items per page</option>
-          <option [ngValue]="6">6 items per page</option>
+          <option [ngValue]="2">2 registros por página</option>
+          <option [ngValue]="4">4 registros por página</option>
+          <option [ngValue]="6">6 registros por página</option>
         </select>
       </div>
 

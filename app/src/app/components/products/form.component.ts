@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './form.component.html'
 })
 
-export class FormComponent implements OnInit {
+export class FormProductsComponent implements OnInit {
 
   public title:string = "CREAR NUEVO PRODUCTO"
 

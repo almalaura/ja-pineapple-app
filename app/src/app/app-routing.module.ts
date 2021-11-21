@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './components/products/products.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
+import { FormUserComponent } from './components/users/form-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ResetPasswordComponent } from './components/login/reset-password.component';
@@ -20,9 +21,8 @@ const routes: Routes = [
   {path: 'logout', component: LogoutComponent,canActivate:[AuthGaurdService] },
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
-  // Agregar cuando se agregue el html del formulario y se importe
-  //{path: 'usuarios/form', component: FormUsersComponent},
-  //{path: 'usuarios/form/:id', component: FormUsersComponent}
+  {path: 'user/form', component: FormUserComponent},
+  {path: 'user/form/:id', component: FormUserComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
