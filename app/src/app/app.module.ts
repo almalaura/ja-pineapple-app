@@ -21,6 +21,17 @@ import { ResetPasswordComponent } from './components/login/reset-password.compon
 import { ForgotPasswordComponent } from './components/login/forgot-password.component';
 
 import { AuthGaurdService } from './service/auth-gaurd.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSortModule} from '@angular/material/sort';
+import {MatDialogModule} from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +57,15 @@ import { AuthGaurdService } from './service/auth-gaurd.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

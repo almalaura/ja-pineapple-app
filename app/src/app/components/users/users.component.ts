@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTrashAlt, faPen, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {DecimalPipe} from '@angular/common';
 import { QueryList, ViewChildren} from '@angular/core';
@@ -6,7 +6,12 @@ import {Observable} from 'rxjs';
 
 import {User} from '../../models/user';
 import {UserService} from './user.service';
-import {NgbdSortableHeaderUser, SortEvent} from '../../directives/sortableUser.directive';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FormUserComponent } from './form-user.component';
 
 @Component({
   selector: 'app-users',
@@ -15,77 +20,82 @@ import {NgbdSortableHeaderUser, SortEvent} from '../../directives/sortableUser.d
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  faPen = faPen;
-  faPlus = faPlus;
-  faTrashAlt = faTrashAlt;
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['username', 'email', 'name', 'surname', 'roles', 'created_at', 'actions'];
+  users$: Observable<User[]> = this.service.getUsers().pipe(
+    tap((data) => {
+      this.dataSource = new MatTableDataSource(data);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    })
+  );
 
-  users: any = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  users$: Observable<User[]>;
-  total$: Observable<number>;
-  @ViewChildren(NgbdSortableHeaderUser) headers: QueryList<NgbdSortableHeaderUser>;
 
-  constructor(public service: UserService) {
-    this.users$ = service.users$;
-    this.total$ = service.total$;
-    this.headers = new QueryList();
+  constructor(
+    public service: UserService,
+    public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.service.getUsers().subscribe(
-      (res) => {
-        this.users = res
-        console.log("usuarios"+ JSON.stringify(this.users))
-      }, (error) => {
-        console.log(error)
-      });
 
+  }
 
+  applyFilter(event: any): void {
+    const filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filter;
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  onDownloadExcel(): void {
+    //this.areasService.downloadExcel(this.selection.selected);
+  }
+
+  createDialog() {
+    const dialogRef = this.dialog.open(FormUserComponent, {
+      width: '40%',
+      data: null,
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if(result) {
+        const data = this.dataSource.data;
+        data.push(result);
+        this.dataSource.data = data;
+      }
+    });
+  }
+
+  editDialog(user: User) {
+    const dialogRef = this.dialog.open(FormUserComponent, {
+      width: '40%',
+      data: user,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const indexTable = this.dataSource.data.indexOf(result);
+      if (indexTable !== -1) {
+        const list = this.dataSource.data
+        list[indexTable] = result;
+        this.dataSource.data = list
+      }
+    });
   }
 
   delete(user: User): void {
-    console.log("eliminar");
-    /*SweetAlert2Module({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al user ${user.nombre} ${user.apellido}?`,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      buttonsStyling: false,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-
-        this.userservice.delete(user.id).subscribe(
-          response => {
-            this.users = this.users.filter(prod  => prod  !== user)
-            SweetAlert2Module(
-              'Usuario Eliminado!',
-              `Usuario ${user.nombre} eliminado con éxito.`,
-              'success'
-            )
-          }
-        )
-
-      }
-    })*/
-  }
-
-  onSort({column, direction}: SortEvent) {
-      // resetting other headers
-      this.headers.forEach(header => {
-        if (header.sortable !== column) {
-          header.direction = '';
+    if(user.id) {
+      this.service.delete(user.id).subscribe(
+        () => {
+          console.log('Finished')
+          this.dataSource.data = this.dataSource.data.filter( item => item.id != user.id)
         }
-      });
-
-      this.service.sortColumn = column;
-      this.service.sortDirection = direction;
+      )
     }
-
+  }
 }

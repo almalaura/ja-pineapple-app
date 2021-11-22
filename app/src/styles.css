@@ -50,3 +50,21 @@ body, html {
 .form-control-rounded {
     border-radius: 1.875rem!important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Montserrat', sans-serif; }
+
+
+.mat-mini-fab.mat-success {
+  color: #455A64;
+  background-color: #FF9800;
+}
+
+.mat-mini-fab.mat-primary {
+  color: #F1F8E9;
+  background-color: #1C313A;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
