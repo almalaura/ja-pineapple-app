@@ -31,9 +31,9 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getProducts().subscribe(
+    /*this.service.getProducts().subscribe(
       products => this.productos = products
-    );
+    );*/
   }
   delete(product: Product): void {
     console.log("eliminar");

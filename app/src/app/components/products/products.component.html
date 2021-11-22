@@ -13,7 +13,7 @@
               <fa-icon [icon]="faFileExcel"></fa-icon>
               EXPORTAR
             </button>
-            <button data-toggle="modal" data-target="#formProduct" type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
+            <button data-toggle="modal" [routerLink]="['/products/form']" data-target="#formProduct" type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
               <fa-icon [icon]="faPlus"></fa-icon>
               NUEVO
             </button>
@@ -43,7 +43,7 @@
           <td><ngb-highlight [result]="product.quantity | number" [term]="service.searchTerm"></ngb-highlight></td>
           <td><ngb-highlight [result]="product.unitPrice | number" [term]="service.searchTerm"></ngb-highlight></td>
           <td>
-            <button class="icon edit-btn" data-toggle="modal" data-target="#formProduct">
+            <button [routerLink]="['/products/form', product.id]" class="icon edit-btn" data-toggle="modal" data-target="#formProduct">
               <fa-icon [icon]="faPen"></fa-icon>
             </button>
           </td>

@@ -1,13 +1,14 @@
 import {Injectable, PipeTransform} from '@angular/core';
 
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of,throwError, Subject} from 'rxjs';
 
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from '../../directives/sortable.directive';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 import { Product } from '../../models/product';
+import { PRODUCTOS } from './productos';
 import { environment } from '../../../environments/environment';
 
 interface SearchResult {
@@ -44,10 +45,10 @@ function matches(Product: Product, term: string, pipe: PipeTransform) {
 
 @Injectable({providedIn: 'root'})
 export class ProductService {
-  private urlEndPoint: string = '/products';
+  //variables para la url e información para conectar con la api
+  private urlEndPoint: string = '/product';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
-  productos: Product[] = [];
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _products$ = new BehaviorSubject<Product[]>([]);
@@ -78,25 +79,47 @@ export class ProductService {
   //Obtener todos los datos de productos
   getProducts(): Observable<Product[]> {
     return this.http.get(environment.hostUrl+this.urlEndPoint).pipe(
-      map(response => response as Product[])
+      map(response => response as Product[]),
+      catchError(this.handleError)
     );
   }
 
   create(product: Product) : Observable<Product> {
-    return this.http.post<Product>(environment.hostUrl+this.urlEndPoint, product, {headers: this.httpHeaders})
+    return this.http.post<Product>(environment.hostUrl+this.urlEndPoint, product, {headers: this.httpHeaders}).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getProduct(id: string): Observable<Product>{
-    return this.http.get<Product>(`${environment.hostUrl+this.urlEndPoint}/${id}`)
+    return this.http.get<Product>(`${environment.hostUrl+this.urlEndPoint}/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   update(product: Product): Observable<Product>{
-    return this.http.put<Product>(`${environment.hostUrl+this.urlEndPoint}/${product.id}`, product, {headers: this.httpHeaders})
+    return this.http.put<Product>(`${environment.hostUrl+this.urlEndPoint}/${product.id}`, product, {headers: this.httpHeaders}).pipe(
+      catchError(this.handleError)
+    );
   }
 
   delete(id: number): Observable<Product>{
-    return this.http.delete<Product>(`${environment.hostUrl+this.urlEndPoint}/${id}`, {headers: this.httpHeaders})
+    return this.http.delete<Product>(`${environment.hostUrl+this.urlEndPoint}/${id}`, {headers: this.httpHeaders}).pipe(
+      catchError(this.handleError)
+    );
   }
+
+  // Handle API errors
+  handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('Un error ha ocurrido:', error.error.message);
+    } else {
+      console.error(
+        `Backend returnó ${error.status}, ` +
+        `mensaje error: ${error.error}`);
+    }
+    return throwError(
+      'Algo ocurrió, por favor intenta más tarde.');
+  };
 
   get products$() { return this._products$.asObservable(); }
   get total$() { return this._total$.asObservable(); }
@@ -120,7 +143,7 @@ export class ProductService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let products = sort(this.productos, sortColumn, sortDirection);
+    let products = sort(PRODUCTOS, sortColumn, sortDirection);
 
     // 2. filter
     products = products.filter(Product => matches(Product, searchTerm, this.pipe));
