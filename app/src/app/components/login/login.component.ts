@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
       //Redireccionar a home
       this.router.navigate(['home']);
     }, () => {
+      window.location.reload();
       //Mostrar mensaje de error
       this.invalidLogin = true;
     });
