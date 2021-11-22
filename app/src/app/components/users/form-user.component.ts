@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import {User} from '../../models/user'
 import {UserService} from './user.service'
 import {Router, ActivatedRoute} from '@angular/router'
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {DecimalPipe} from '@angular/common';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-form-user',
   providers: [UserService, DecimalPipe],
@@ -11,70 +12,79 @@ import {DecimalPipe} from '@angular/common';
 })
 
 export class FormUserComponent implements OnInit {
-switchRol:boolean = false;
   title:string = "CREAR NUEVO USUARIO";
-  user: User = {
-    id: 0,
-    name: '',
-    surname: '',
-    username: '',
-    password: '',
-    email: '',
-    roles: '',
-    created_at: ''
-  }
 
+  switchRol: boolean = false;
 
-  constructor(private userService: UserService,
-  private router: Router,
-  private activatedRoute: ActivatedRoute) { }
+  formUser: FormGroup
+
+  constructor(
+    private userService: UserService,
+    private readonly fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    public dialogRef: MatDialogRef<FormUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public user: User) { }
 
   ngOnInit():void {
-    this.cargarUser()
+    this.initForm();
+    if (this.user) {
+      this.patchForm(this.user)
+    }
   }
-  //Cargar los datos del usuario si la acción es actualizar
-  cargarUser(): void{
-    this.activatedRoute.params.subscribe(params => {
-      let id = params['id']
-      if(id){
-        this.userService.getUser(id).subscribe( (user) => this.user = user)
-      }
-    })
-  }
-  //Evento para cambiar el valor del checkbox
-  changed = (event:any) => {
-    console.log(event.currentTarget.checked)
-    this.switchRol = event.currentTarget.checked;
-  }
+
   //Crea un nuevo usuario
   create(): void {
-    //asigar valor a roles por la interfaz del checkbox
-    console.log(this.switchRol);
-    if (this.switchRol === true) {
-      this.user.roles = 'admin';
-    }
-    console.log(this.user)
-    this.userService.create(this.user)
-      .subscribe((user) => {
-        let usercreated = user;
-        console.log("user"+usercreated);
-        this.router.navigate(['/users'])
-        Swal.fire('Nuevo user', `Usuario creado con éxito!`, 'success')
-      },
-      (error) =>{
-        console.log("error"+error)
-        throw error;
+    if (this.formUser.valid) {
+      const finalUser = {
+        ...this.formUser.value,
+        roles: this.switchRol ? 'user' : 'admin'
       }
-    );
-  }
-  //Actualiza los datos del usuario
-  update():void{
-    this.userService.update(this.user)
-    .subscribe( user => {
-      this.router.navigate(['/users'])
-      Swal.fire('Usuario Actualizado', `Usuario actualizado con éxito!`, 'success')
+      this.userService.create(finalUser).subscribe()
+      this.onNoClick()
     }
+  }
+  
+  //Actualiza los datos del usuario
+  update(): void {
+    if (this.formUser.valid) {
+      const finalUser = {
+        ...this.formUser.value,
+        roles: this.switchRol ? 'user' : 'admin'
+      }
+      this.userService.update(finalUser).subscribe()
+      this.onNoClick()
+    }
+  }
 
-    )
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  initForm(): void {
+    this.formUser = this.fb.group({
+      id: [],
+      username: ['', Validators.compose([
+          Validators.required,
+      ])],
+      password: ['', Validators.required],
+      email: ['', Validators.compose([
+          Validators.required,
+          Validators.email
+      ])],
+      name: ['', Validators.compose([
+          Validators.required,
+      ])],
+      surname: ['', Validators.compose([
+          Validators.required,
+      ])],
+      roles: 'user'
+    });
+  }
+
+  patchForm(registro: User): void {
+    this.formUser.patchValue({
+      ...registro,
+    });
   }
 }

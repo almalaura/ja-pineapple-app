@@ -1,52 +1,41 @@
-<!-- Modal -->
-<app-header></app-header>
-<hr>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>-->
-        <h5 class="modal-title text-center" id="staticBackdropLabel">{{title}}</h5>
-        <br>
-        <form>
-          <div class="custom-control custom-switch">
-            <span class="pr-5" >Usuario regular</span>
-            <input type="checkbox" class="custom-control-input" [(ngModel)]="switchRol" (change)="changed($event)" value="admin" id="customSwitch1">
-            <label class="pl-3 custom-control-label" for="customSwitch1">Administrador</label>
-          </div><br>
-          <div class="form-group row">
-            <div class="col-sm-12">
-              <input type="text" class="form-control form-control-rounded" [(ngModel)]="user.username" placeholder="Usuario" name="usuario">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-12">
-              <input type="password" class="form-control form-control-rounded" [(ngModel)]="user.password" placeholder="Contraseña" name="password">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-6">
-              <input type="text" class="form-control form-control-rounded" [(ngModel)]="user.name" placeholder="Nombre" name="name">
-            </div>
-            <div class="col-sm-6">
-              <input type="text" class="form-control form-control-rounded" [(ngModel)]="user.surname" placeholder="Apellidos" name="lastname">
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-12">
-              <input type="text" class="form-control form-control-rounded" [(ngModel)]="user.email" placeholder="Email" name="email">
-            </div>
-          </div>
-        </form>
-        <div class="text-center">
-          <!--<button type="button" class="btn px-5 mr-5 text-white bg-orange form-control-rounded" data-dismiss="modal">CANCELAR</button>-->
-          <button class="btn px-5 text-white bg-green-light form-control-rounded" (click)='create()' *ngIf="!user.id else elseBlock" role="button">CREAR</button>
-
-          <ng-template #elseBlock>
-            <button class="btn px-5 text-white bg-green-light form-control-rounded" (click)='update()' role="button">GUARDAR</button>
-          </ng-template>
-        </div>
+<h1 mat-dialog-title class="text-center"> {{ user ? 'EDITAR USUARIO' : 'CREAR NUEVO USUARIO' }} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="formUser">
+    <div class="custom-control custom-switch">
+      <span class="pr-5" >Usuario regular</span>
+      <input type="checkbox" class="custom-control-input" [(ngModel)]="switchRol" value="admin" id="customSwitch1">
+      <label class="pl-3 custom-control-label" for="customSwitch1">Administrador</label>
+    </div><br>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type="text" class="form-control form-control-rounded" [formControlName]="'username'" placeholder="Usuario" name="usuario">
       </div>
     </div>
-  </div>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type="password" class="form-control form-control-rounded" [formControlName]="'password'" placeholder="Contraseña" name="password">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-rounded" [formControlName]="'name'" placeholder="Nombre" name="name">
+      </div>
+      <div class="col-sm-6">
+        <input type="text" class="form-control form-control-rounded" [formControlName]="'surname'" placeholder="Apellidos" name="lastname">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type="text" class="form-control form-control-rounded" [formControlName]="'email'" placeholder="Email" name="email">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">CANCELAR</button>
+  <button mat-button class="btn px-5 text-white bg-green-light form-control-rounded" (click)='create()' *ngIf="!user">CREAR</button>
+  <button mat-button class="btn px-5 text-white bg-green-light form-control-rounded" (click)='update()' *ngIf="user">GUARDAR</button>
+
+</div>
+
