@@ -72,7 +72,7 @@ export class UserService {
     )
   }
   //Eliminar el registro de un usuario
-  delete(id: number): Observable<User>{
-    return this.http.delete<User>(`${environment.hostUrl+this.urlEndPoint}/${id}`, {headers: this.httpHeaders})
+  delete(id: number): Observable<any>{
+    return this.http.delete<any>(`${environment.hostUrl+this.urlEndPoint}/${id}`, {headers: this.httpHeaders})
   }
 }
