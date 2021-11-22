@@ -1,12 +1,12 @@
 import {Injectable, PipeTransform} from '@angular/core';
 
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of, throwError, Subject} from 'rxjs';
 
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from '../../directives/sortableUser.directive';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { catchError,map } from 'rxjs/operators';
 import { User } from '../../models/user';
 import { environment } from '../../../environments/environment';
 
@@ -40,7 +40,7 @@ function matches(User: User, term: string, pipe: PipeTransform) {
   return User.name.toLowerCase().includes(term.toLowerCase())
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class UserService {
   private urlEndPoint: string = '/users';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
@@ -75,14 +75,17 @@ export class UserService {
       this._search$.next();
     }
   //Obtener todos los datos de usuarios
-  getUsers(): Observable<User[]> {
-    return this.http.get(environment.hostUrl+this.urlEndPoint).pipe(
-      map(response => response as User[])
-    );
+  getUsers(){
+    return this.http.get(environment.hostUrl+this.urlEndPoint)
   }
   //Crear un usuario
   create(user: User) : Observable<User> {
-    return this.http.post<User>(`${environment.hostUrl}/auth/signup`, user, {headers: this.httpHeaders})
+    return this.http.post<User>(`${environment.hostUrl}/auth/signup`, user, {headers: this.httpHeaders}).pipe(
+        catchError((err) => {
+          console.log('error caught in service')
+          return throwError(err);
+        })
+      )
   }
   //Obtener la información del usuario
   getUser(id: string): Observable<User>{

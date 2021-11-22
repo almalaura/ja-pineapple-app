@@ -39,8 +39,8 @@
             </div>
           </div>
         </form>
-        <div class="justify-content-end">
-          <button type="button" class="btn px-5 mr-5 text-white bg-orange form-control-rounded" data-dismiss="modal">CANCELAR</button>
+        <div class="text-center">
+          <!--<button type="button" class="btn px-5 mr-5 text-white bg-orange form-control-rounded" data-dismiss="modal">CANCELAR</button>-->
           <button class="btn px-5 text-white bg-green-light form-control-rounded" (click)='create()' *ngIf="!user.id else elseBlock" role="button">CREAR</button>
 
           <ng-template #elseBlock>

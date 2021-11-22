@@ -55,9 +55,15 @@ switchRol:boolean = false;
     }
     console.log(this.user)
     this.userService.create(this.user)
-      .subscribe(user => {
+      .subscribe((user) => {
+        let usercreated = user;
+        console.log("user"+usercreated);
         this.router.navigate(['/users'])
         Swal.fire('Nuevo user', `Usuario creado con éxito!`, 'success')
+      },
+      (error) =>{
+        console.log("error"+error)
+        throw error;
       }
     );
   }

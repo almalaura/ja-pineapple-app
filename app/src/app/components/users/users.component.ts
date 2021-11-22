@@ -18,7 +18,9 @@ export class UsersComponent implements OnInit {
   faPen = faPen;
   faPlus = faPlus;
   faTrashAlt = faTrashAlt;
-  users: User[] = [];
+
+  users: any = [];
+
   users$: Observable<User[]>;
   total$: Observable<number>;
   @ViewChildren(NgbdSortableHeaderUser) headers: QueryList<NgbdSortableHeaderUser>;
@@ -31,8 +33,14 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getUsers().subscribe(
-      users => this.users = users
-    );
+      (res) => {
+        this.users = res
+        console.log("usuarios"+ JSON.stringify(this.users))
+      }, (error) => {
+        console.log(error)
+      });
+
+
   }
 
   delete(user: User): void {
