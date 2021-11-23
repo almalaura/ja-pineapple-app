@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTrashAlt, faPen, faFileExcel, faPlus} from '@fortawesome/free-solid-svg-icons';
-import { ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Product} from '../../models/product';
 import {ProductService} from './products.service';
@@ -36,8 +35,8 @@ export class ProductsComponent implements OnInit {
       });
     })
   );
-  @ViewChildren(MatPaginator) paginator: MatPaginator;
-  @ViewChildren(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public service: ProductService,

@@ -5,6 +5,7 @@ import {Router, ActivatedRoute} from '@angular/router'
 import Swal from 'sweetalert2';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 interface Categories {
   id: number,
   name: string
@@ -17,12 +18,13 @@ export class FormProductsComponent implements OnInit {
 
   formProduct: FormGroup
   categories: Categories[] = []
-  constructor(private productService: ProductService,
-  private router: Router,
-  private activatedRoute: ActivatedRoute,
-  private fb: FormBuilder,
-  public dialogRef: MatDialogRef<FormProductsComponent>,
-  @Inject(MAT_DIALOG_DATA) public product: Product) { }
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    public dialogRef: MatDialogRef<FormProductsComponent>,
+    @Inject(MAT_DIALOG_DATA) public product: Product) { }
 
   ngOnInit() {
     const rescategories = this.productService.getCategories().subscribe((res) =>{
@@ -85,28 +87,28 @@ export class FormProductsComponent implements OnInit {
       }
     }
 
-    initForm(): void {
-      this.formProduct = this.fb.group({
-        id: [],
-        name: ['', Validators.compose([
-            Validators.required,
-        ])],
-        category: ['', Validators.required],
-        unitPrice: ['', Validators.required,],
-        quantity: ['', Validators.required,],
-        description: ['', Validators.compose([
-            Validators.required,
-        ])],
-      });
-    }
+  initForm(): void {
+    this.formProduct = this.fb.group({
+      id: [],
+      name: ['', Validators.compose([
+          Validators.required,
+      ])],
+      category: ['', Validators.required],
+      unitPrice: ['', Validators.required,],
+      quantity: ['', Validators.required,],
+      description: ['', Validators.compose([
+          Validators.required,
+      ])],
+    });
+  }
 
-    patchForm(registro: Product): void {
-      this.formProduct.patchValue({
-        ...registro,
-      });
-    }
+  patchForm(registro: Product): void {
+    this.formProduct.patchValue({
+      ...registro,
+    });
+  }
 
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
