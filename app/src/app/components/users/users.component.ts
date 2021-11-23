@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { faTrashAlt, faPen, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {DecimalPipe} from '@angular/common';
-import { QueryList, ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {User} from '../../models/user';
@@ -52,10 +50,6 @@ export class UsersComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  onDownloadExcel(): void {
-    //this.areasService.downloadExcel(this.selection.selected);
   }
 
   createDialog() {

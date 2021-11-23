@@ -2,7 +2,6 @@ import {Injectable, PipeTransform} from '@angular/core';
 
 import {BehaviorSubject, Observable, of, throwError, Subject} from 'rxjs';
 
-import {DecimalPipe} from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError,map } from 'rxjs/operators';
 import { User, UserCreate } from '../../models/user';
@@ -13,9 +12,6 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class UserService {
   private urlEndPoint: string = '/users';
   private httpHeaders: HttpHeaders
-  //variable para almacenar todos los usuarios
-  usuarios: User[] = [];
-  private _users$ = new BehaviorSubject<User[]>([]);
 
   constructor(
     private http: HttpClient,
