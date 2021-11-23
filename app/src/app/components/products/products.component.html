@@ -72,7 +72,7 @@
                   Precio
               </th>
               <td class="pt-4" mat-cell *matCellDef="let element">
-                  {{ element.unitPrice | currency}}
+                  {{ element.unitPrice | currency:'S/. '}}
               </td>
           </ng-container>
           <ng-container matColumnDef="actions">

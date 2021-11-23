@@ -18,20 +18,6 @@ export class ExcelService {
   ) {}
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
-    //TODO: To export products create a function with this content
-    /*
-    onDownloadExcel(): void {
-      const data = this.dataSource.data.map(reg => ({
-        "Nombre": reg.name,
-        "Descripción": reg.description,
-        "Categoría": reg.category,
-        "Cantidad": reg.quantity,
-        "Precio unitario": reg.unitPrice,
-      }));
-      this.excelService.exportAsExcelFile(data, 'Productos')
-    }
-    */
-
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet },

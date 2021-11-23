@@ -22,7 +22,7 @@
         </div>
       </div>
       <div *ngIf="users$ | async" class="w-100">
-        <table mat-table [dataSource]="dataSource" class="table" matSort>
+        <table mat-table [dataSource]="dataSource" class="table table-striped" matSort>
           <!--<img [src]="'https://picsum.photos/200/300?random=' + element.id" class="mr-2" style="height: 50px">-->
           <ng-container matColumnDef="username">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>

@@ -12,6 +12,7 @@ import { tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FormProductsComponent } from './form.component';
 import { FormGroup } from '@angular/forms';
+import { ExcelService } from 'src/app/service/excel.service';
 
 @Component({
   selector: 'app-products',
@@ -40,6 +41,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     public service: ProductService,
+    public excelService: ExcelService,
     public dialog: MatDialog){
   }
 
@@ -55,9 +57,15 @@ export class ProductsComponent implements OnInit {
   }
 
   onDownloadExcel(): void {
-    //this.areasService.downloadExcel(this.selection.selected);
+    const data = this.dataSource.data.map(reg => ({
+      "Nombre": reg.name,
+      "Descripción": reg.description,
+      "Categoría": reg.category,
+      "Cantidad": reg.quantity,
+      "Precio unitario": reg.unitPrice,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Productos')
   }
-
   createDialog() {
     const dialogRef = this.dialog.open(FormProductsComponent, {
       width: '40%',
