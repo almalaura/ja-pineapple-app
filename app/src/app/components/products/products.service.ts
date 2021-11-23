@@ -11,7 +11,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 })
 export class ProductService {
   //variables para la url de información para conectar con la api
-  private urlEndPoint: string = '/product';
+  private urlEndPoint: string = '/products';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(
@@ -28,7 +28,9 @@ export class ProductService {
   }
   //Obtener todos los datos de productos
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(environment.hostUrl+this.urlEndPoint)
+    let res = this.http.get<Product[]>(environment.hostUrl+this.urlEndPoint)
+    console.log(res)
+    return res
   }
   //crear un producto nuevo
   create(product: Product) : Observable<Product> {

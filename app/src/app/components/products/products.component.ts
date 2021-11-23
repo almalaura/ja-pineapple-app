@@ -4,7 +4,7 @@ import { ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Product} from '../../models/product';
 import {ProductService} from './products.service';
-
+import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
   faTrashAlt = faTrashAlt;
   faFileExcel = faFileExcel;
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['name', 'category', 'description', 'quantity', 'unitPrice', 'actions'];
+  displayedColumns: string[] = ['id','name', 'category', 'description', 'quantity', 'unitPrice', 'actions'];
 
   products$: Observable<Product[]> = this.service.getProducts().pipe(
     tap((data) => {
@@ -107,11 +107,26 @@ export class ProductsComponent implements OnInit {
 
   delete(product: Product): void {
     if(product.id) {
-      this.service.delete(product.id).subscribe(
-        () => {
-          this.dataSource.data = this.dataSource.data.filter( item => item.id != product.id)
+      Swal.fire({
+        title: '¿Seguro que deseas eliminarlo?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.service.delete(product.id).subscribe(
+            () => {
+              this.dataSource.data = this.dataSource.data.filter( item => item.id != product.id)
+              Swal.fire('El producto se eliminó!', '', 'success').then(()=>{
+                window.location.reload()
+              })
+            }
+          )
         }
-      )
+      })
+
     }
   }
 

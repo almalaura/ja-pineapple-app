@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {Product} from '../../models/product';
 import {ProductService} from './products.service';
 import {Router, ActivatedRoute} from '@angular/router'
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from 'sweetalert2';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 interface Categories {
@@ -42,13 +42,19 @@ export class FormProductsComponent implements OnInit {
         ...this.formProduct.value
       }
       this.productService.create(finalProduct).subscribe((res) =>{
-        Swal.fire('Nuevo producto', `Producto creado con éxito!`, 'success')
-        this.router.navigate(['/products'])
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El Producto se guardó correctamente!',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          window.location.reload()
+        })
         return finalProduct
       },(error) => {
         console.log(error)
         Swal.fire('Vuelve a intentarlo', `Ocurrio un error`, 'error')
-
       })
       this.onNoClick()
     }
@@ -62,8 +68,15 @@ export class FormProductsComponent implements OnInit {
         ...this.formProduct.value
       }
       this.productService.update(finalProduct).subscribe((res) =>{
-        Swal.fire('Producto actualizado', `Producto actualizado con éxito!`, 'success')
-        this.router.navigate(['/products'])
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'El Producto ha sido actualizado!',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          window.location.reload()
+        })
       },(error) => {
         console.log(error)
         Swal.fire('Vuelve a intentarlo', `Ocurrio un error`, 'error')

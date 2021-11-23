@@ -18,11 +18,13 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-6">
-            <input type="number" class="form-control form-control-rounded"
+            <label for="price">Precio Unico</label>
+            <input type="number" id="price" class="form-control form-control-rounded"
             pattern='[0-9]+(\.[0-9][0-9]?)?' formControlName="unitPrice" placeholder="Precio Unitario" name="priceUnit">
           </div>
           <div class="col-sm-6">
-            <input type="number" class="form-control form-control-rounded" placeholder="Cantidad"
+            <label for="quantity">Cantidad</label>
+            <input type="number" id="quantity" class="form-control form-control-rounded" placeholder="Cantidad"
             formControlName="quantity" name="quantity">
           </div>
         </div>
