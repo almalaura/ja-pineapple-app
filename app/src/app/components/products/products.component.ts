@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { faTrashAlt, faPen, faFileExcel, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {DecimalPipe} from '@angular/common';
-import { QueryList, ViewChildren} from '@angular/core';
+import { ViewChildren} from '@angular/core';
 import {Observable} from 'rxjs';
-
 import {Product} from '../../models/product';
 import {ProductService} from './products.service';
-import {NgbdSortableHeader, SortEvent} from '../../directives/sortable.directive';
+
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FormProductsComponent } from './form.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  providers: [ProductService, DecimalPipe],
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
@@ -19,64 +23,96 @@ export class ProductsComponent implements OnInit {
   faPlus = faPlus;
   faTrashAlt = faTrashAlt;
   faFileExcel = faFileExcel;
-  productos: Product[] = [];
-  products$: Observable<Product[]>;
-  total$: Observable<number>;
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'category', 'description', 'quantity', 'unitPrice', 'actions'];
 
-  constructor(public service: ProductService) {
-    this.products$ = service.products$;
-    this.total$ = service.total$;
-    this.headers = new QueryList();
+  products$: Observable<Product[]> = this.service.getProducts().pipe(
+    tap((data) => {
+      this.dataSource = new MatTableDataSource(data);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    })
+  );
+  @ViewChildren(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatSort) sort: MatSort;
+
+  constructor(
+    public service: ProductService,
+    public dialog: MatDialog){
   }
 
   ngOnInit(): void {
-    /*this.service.getProducts().subscribe(
-      products => this.productos = products
-    );*/
   }
-  delete(product: Product): void {
-    console.log("eliminar");
-    /*SweetAlert2Module({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al product ${product.nombre} ${product.apellido}?`,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      buttonsStyling: false,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
 
-        this.productService.delete(product.id).subscribe(
-          response => {
-            this.products = this.products.filter(prod  => prod  !== product)
-            swal(
-              'Producto Eliminado!',
-              `Producto ${product.nombre} eliminado con éxito.`,
-              'success'
-            )
+  applyFilter(event: any): void {
+    const filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filter;
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  onDownloadExcel(): void {
+    //this.areasService.downloadExcel(this.selection.selected);
+  }
+
+  createDialog() {
+    const dialogRef = this.dialog.open(FormProductsComponent, {
+      width: '40%',
+      data: null,
+    });
+
+    dialogRef.afterClosed().subscribe( (result: FormGroup) => {
+      if (result?.valid) {
+        const finalProduct = {
+          ...result.value,
+        }
+        this.service.create(finalProduct).subscribe(
+          (reg) => {
+            const data = this.dataSource.data;
+            data.push(reg);
+            this.dataSource.data = data;
           }
         )
-
       }
-    })*/
+    });
   }
 
-  onSort({column, direction}: SortEvent) {
-      // resetting other headers
-      this.headers.forEach(header => {
-        if (header.sortable !== column) {
-          header.direction = '';
-        }
-      });
+  editDialog(product: Product) {
+    const dialogRef = this.dialog.open(FormProductsComponent, {
+      width: '40%',
+      data: product,
+    });
 
-      this.service.sortColumn = column;
-      this.service.sortDirection = direction;
+    dialogRef.afterClosed().subscribe((result: FormGroup) => {
+      if (result?.valid) {
+        const finalProduct = {
+          ...result.value,
+        }
+        this.service.update(finalProduct).subscribe(
+          (reg) => {
+            const indexTable = this.dataSource.data.indexOf(product);
+            if (indexTable !== -1) {
+              const list = this.dataSource.data
+              list[indexTable] = reg;
+              this.dataSource.data = list
+            }
+          }
+        )
+      }
+    });
+  }
+
+  delete(product: Product): void {
+    if(product.id) {
+      this.service.delete(product.id).subscribe(
+        () => {
+          this.dataSource.data = this.dataSource.data.filter( item => item.id != product.id)
+        }
+      )
     }
+  }
+
 }

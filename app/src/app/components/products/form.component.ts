@@ -1,72 +1,99 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {Product} from '../../models/product';
 import {ProductService} from './products.service';
 import {Router, ActivatedRoute} from '@angular/router'
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import {DecimalPipe} from '@angular/common';
-
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+interface Categories {
+  id: number,
+  name: string
+}
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  providers: [ProductService, DecimalPipe],
 })
-
 export class FormProductsComponent implements OnInit {
-  public  product: Product = {id: 0,
-  name: '',
-  description: '',
-  category: '',
-  quantity: 0,
-  unitPrice: 0,};
-  public title:string = "CREAR NUEVO PRODUCTO"
-  isProductCreated = false;
+
+  formProduct: FormGroup
+  categories: Categories[] = []
   constructor(private productService: ProductService,
   private router: Router,
-  private activatedRoute: ActivatedRoute) { }
+  private activatedRoute: ActivatedRoute,
+  private fb: FormBuilder,
+  public dialogRef: MatDialogRef<FormProductsComponent>,
+  @Inject(MAT_DIALOG_DATA) public product: Product) { }
 
   ngOnInit() {
-    this.cargarProduct()
-  }
-
-  cargarProduct(): void{
-    this.activatedRoute.params.subscribe(params => {
-      let id = params['id']
-      if(id){
-        this.productService.getProduct(id).subscribe( (product) => this.product = product)
-      }
+    const rescategories = this.productService.getCategories().subscribe((res) =>{
+      let c = JSON.stringify(res)
+      this.categories = JSON.parse(c)
     })
+    this.initForm();
+    //Si contiene valores product plasmarlos en los input para editar
+    if (this.product) {
+      this.patchForm(this.product)
+    }
   }
-
-  create(): void {
-    this.productService.create(this.product)
-      .subscribe(product => {
-        this.isProductCreated = true;
-        this.router.navigate(['/clientes'])
-        Swal.fire('Nuevo producto', `Producto creado con éxito!`, 'success')
+  //Crear un nuevo producto
+  create(): Product | null {
+    if(this.formProduct.valid) {
+      const finalProduct = {
+        ...this.formProduct.value
       }
-      );
+      this.productService.create(finalProduct).subscribe((res) =>{
+        Swal.fire('Nuevo producto', `Producto creado con éxito!`, 'success')
+        this.router.navigate(['/products'])
+        return finalProduct
+      },(error) => {
+        console.log(error)
+        Swal.fire('Vuelve a intentarlo', `Ocurrio un error`, 'error')
+
+      })
+      this.onNoClick()
+    }
+    return null
   }
 
-  update():void{
-    this.productService.update(this.product)
-    .subscribe( product => {
-      this.router.navigate(['/clientes'])
-      Swal.fire('Producto Actualizado', `Producto actualizado con éxito!`, 'success')
+  //Actualiza los datos de un producto
+  update(): void {
+    if (this.formProduct.valid) {
+      const finalProduct = {
+        ...this.formProduct.value
+      }
+      this.productService.update(finalProduct).subscribe((res) =>{
+        Swal.fire('Producto actualizado', `Producto actualizado con éxito!`, 'success')
+        this.router.navigate(['/products'])
+      },(error) => {
+        console.log(error)
+        Swal.fire('Vuelve a intentarlo', `Ocurrio un error`, 'error')
+      })
+      this.onNoClick()
+      }
     }
 
-    )
-  }
+    initForm(): void {
+      this.formProduct = this.fb.group({
+        id: [],
+        name: ['', Validators.compose([
+            Validators.required,
+        ])],
+        category: ['', Validators.required],
+        unitPrice: ['', Validators.required,],
+        quantity: ['', Validators.required,],
+        description: ['', Validators.compose([
+            Validators.required,
+        ])],
+      });
+    }
 
-  // Resetear los datos del objeto Product
-  newProduct(): void {
-    this.isProductCreated = false;
-    this.product = {
-      id: 0,
-      name: '',
-      description: '',
-      category: '',
-      quantity: 0,
-      unitPrice: 0,
-    };
-  }
+    patchForm(registro: Product): void {
+      this.formProduct.patchValue({
+        ...registro,
+      });
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 }
