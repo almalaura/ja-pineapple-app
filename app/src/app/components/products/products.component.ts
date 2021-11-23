@@ -126,9 +126,7 @@ export class ProductsComponent implements OnInit {
           this.service.delete(product.id).subscribe(
             () => {
               this.dataSource.data = this.dataSource.data.filter( item => item.id != product.id)
-              Swal.fire('El producto se eliminó!', '', 'success').then(()=>{
-                window.location.reload()
-              })
+              Swal.fire('El producto se eliminó!', '', 'success')
             }
           )
         }
