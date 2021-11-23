@@ -16,7 +16,7 @@ export interface Login {
 
 export class AuthenticationService {
 
-  public username: string = '';
+  public rol: string
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   protected token: string = ''
 
@@ -26,10 +26,24 @@ export class AuthenticationService {
     return this.http.post<Login>(environment.hostUrl + `/auth/signin`,{ username, password },
     {headers: this.httpHeaders})
     .pipe(tap((res) => {
-      this.username = res.username;
+      let roles = this.isAdminRole(res.roles) ? 'ROLE_ADMIN' : 'ROLE_USER'
+      this.rol = roles
       this.token = res.accessToken;
+      sessionStorage.setItem('rol', this.rol);
       sessionStorage.setItem('token', res.accessToken);
     }));
+  }
+
+  isAdminRole(roles: string[]): boolean {
+    let result = false
+    roles.forEach(item => {
+      if (item === 'ROLE_ADMIN') result = true
+    })
+    return result
+  }
+  isUserAdmin(){
+    let user = sessionStorage.getItem('rol')
+    return (user === 'ROLE_ADMIN' && this.isUserLoggedIn())
   }
 
   createBasicAuthToken(){
