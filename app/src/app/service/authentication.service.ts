@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { User } from '../models/user';
+import { Observable } from 'rxjs';
 
 export interface Login {
   id: number,
@@ -41,9 +43,18 @@ export class AuthenticationService {
     })
     return result
   }
-  isUserAdmin(){
+
+  isUserAdmin(): boolean {
     let user = sessionStorage.getItem('rol')
     return (user === 'ROLE_ADMIN' && this.isUserLoggedIn())
+  }
+
+  checkEmail(email: string): Observable<User> {
+    return this.http.get<User>(environment.hostUrl + '/forgot_password/' + email, {headers: this.httpHeaders})
+  }
+
+  resetPassword(id: number, password: string): Observable<User> {
+    return this.http.put<User>(environment.hostUrl + '/auth/reset_password/' + id, password, {headers: this.httpHeaders})
   }
 
   createBasicAuthToken(){
