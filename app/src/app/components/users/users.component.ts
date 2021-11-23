@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FormUserComponent } from './form-user.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -63,11 +64,19 @@ export class UsersComponent implements OnInit {
       data: null,
     });
 
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if(result) {
-        const data = this.dataSource.data;
-        data.push(result);
-        this.dataSource.data = data;
+    dialogRef.afterClosed().subscribe( (result: FormGroup) => {
+      if (result?.valid) {
+        const finalUser = {
+          ...result.value,
+          roles: result.get('switchRol')?.value ? 'user' : 'admin'
+        }
+        this.service.create(finalUser).subscribe(
+          (reg) => {
+            const data = this.dataSource.data;
+            data.push(reg);
+            this.dataSource.data = data;
+          }
+        )
       }
     });
   }
@@ -78,12 +87,22 @@ export class UsersComponent implements OnInit {
       data: user,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      const indexTable = this.dataSource.data.indexOf(result);
-      if (indexTable !== -1) {
-        const list = this.dataSource.data
-        list[indexTable] = result;
-        this.dataSource.data = list
+    dialogRef.afterClosed().subscribe((result: FormGroup) => {
+      if (result?.valid) {
+        const finalUser = {
+          ...result.value,
+          roles: result.get('switchRol')?.value ? 'user' : 'admin'
+        }
+        this.service.update(finalUser).subscribe(
+          (reg) => {
+            const indexTable = this.dataSource.data.indexOf(user);
+            if (indexTable !== -1) {
+              const list = this.dataSource.data
+              list[indexTable] = reg;
+              this.dataSource.data = list
+            }
+          }
+        )
       }
     });
   }
@@ -92,7 +111,6 @@ export class UsersComponent implements OnInit {
     if(user.id) {
       this.service.delete(user.id).subscribe(
         () => {
-          console.log('Finished')
           this.dataSource.data = this.dataSource.data.filter( item => item.id != user.id)
         }
       )

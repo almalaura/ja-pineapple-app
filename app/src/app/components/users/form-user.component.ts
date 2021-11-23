@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import {User} from '../../models/user'
+import {User, UserCreate} from '../../models/user'
 import {UserService} from './user.service'
 import {Router, ActivatedRoute} from '@angular/router'
 import {DecimalPipe} from '@angular/common';
@@ -13,8 +13,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class FormUserComponent implements OnInit {
   title:string = "CREAR NUEVO USUARIO";
-
-  switchRol: boolean = false;
 
   formUser: FormGroup
 
@@ -34,26 +32,28 @@ export class FormUserComponent implements OnInit {
   }
 
   //Crea un nuevo usuario
-  create(): void {
+  create(): User | null {
     if (this.formUser.valid) {
       const finalUser = {
         ...this.formUser.value,
-        roles: this.switchRol ? 'user' : 'admin'
+        roles: this.formUser.get('switchRol')?.value ? 'user' : 'admin'
       }
-      this.userService.create(finalUser).subscribe()
       this.onNoClick()
+      return finalUser
     }
+    return null
   }
   
   //Actualiza los datos del usuario
-  update(): void {
+  async update(): Promise<User | void> {
     if (this.formUser.valid) {
       const finalUser = {
         ...this.formUser.value,
-        roles: this.switchRol ? 'user' : 'admin'
+        roles: this.formUser.get('switchRol')?.value ? 'user' : 'admin'
       }
-      this.userService.update(finalUser).subscribe()
+      const resultUser = await this.userService.update(finalUser).toPromise()
       this.onNoClick()
+      return resultUser
     }
   }
 
@@ -78,7 +78,8 @@ export class FormUserComponent implements OnInit {
       surname: ['', Validators.compose([
           Validators.required,
       ])],
-      roles: 'user'
+      roles: 'user',
+      switchRol: [false]
     });
   }
 
