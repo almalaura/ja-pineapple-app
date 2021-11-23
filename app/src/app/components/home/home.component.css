@@ -25,3 +25,11 @@
   position: relative;
   z-index: 1080;
 }
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover {
+    color: #FF9800;
+}

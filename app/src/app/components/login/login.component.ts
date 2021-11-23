@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../service/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +8,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private loginservice: AuthenticationService
+  ) { }
 
-  constructor() { }
+  username: string = '';
+  password: string = '';
+  errorMessage = 'Datos invalidos';
+  invalidLogin = false;
 
-  ngOnInit(): void {
+  ngOnInit() {
+  }
+
+  // Click iniciar sesión
+  checkLogin() {
+    this.loginservice.authenticate(this.username, this.password).subscribe((result) => {
+      this.invalidLogin = false;
+      //Redireccionar a home
+      this.router.navigate(['home']);
+    }, () => {
+      window.location.reload();
+      //Mostrar mensaje de error
+      this.invalidLogin = true;
+    });
   }
 
 }

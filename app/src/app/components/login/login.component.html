@@ -1,1 +1,32 @@
-<p>login works!</p>
+<div class="container-fluid az-body bg-gray-base">
+  <div class="az-signin-wrapper fadeInDown">
+    <div class="az-card-signin bg-gray-base">
+        <img class="align-self-center" src="\assets\img\white-logo.png" alt="Pineapple Supermarket" width="200" height="150">
+        <h5 class="text-white align-self-center py-3">Iniciar sesión</h5>
+      <div class="">
+        <form>
+          <div class="alert alert-warning" *ngIf="invalidLogin">
+            {{errorMessage}}
+          </div>
+          <div class="form-group align-items-center">
+              <input type="text" name="username" [(ngModel)]="username" class="form-control form-control-rounded mb-2" id="inputname" placeholder="Usuario">
+          </div>
+          <div class="form-group align-items-center">
+              <div class="input-group mb-2">
+                <input type="password" name="password" [(ngModel)]="password" class="form-control form-control-rounded" id="inputpassword" placeholder="Password">
+              </div>
+          </div>
+        </form>
+      </div>
+      <button (click)=checkLogin() class="btn form-control-rounded bg-orange">
+        INGRESAR
+      </button>
+      <br>
+      <div class="form-group text-white text-center">
+        <p class="font-bold"><strong><a class="link" href="forgot-password">¿Olvidaste tu contraseña?</a></strong></p>
+        <small><em>No tienes una cuenta?</em> Contacta con el administrador de la plataforma.</small>
+      </div>
+
+  </div>
+
+</div>

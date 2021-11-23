@@ -47,3 +47,48 @@ body{
 body, html {
   height: 100%;
 }
+.form-control-rounded {
+    border-radius: 1.875rem!important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Montserrat', sans-serif; }
+
+
+.mat-mini-fab.mat-success {
+  color: #455A64;
+  background-color: #FF9800;
+}
+
+.mat-mini-fab.mat-primary {
+  color: #F1F8E9;
+  background-color: #1C313A;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Monserrat, "Helvetica Neue", sans-serif; }
+
+.fa {  
+  width: 35px;
+  height: 35px;
+  padding: 8px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+  border-radius: 50%; 
+  margin-right: 5px;
+  margin-bottom: 8px;
+}
+
+.fa:hover {
+  opacity: 0.7;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+}
+
+.fa-github {
+  background: #000000;
+}
