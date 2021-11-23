@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+
+export interface Login {
+  id: number,
+  accessToken: string,
+  username: string,
+  roles: string[]
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,31 +17,31 @@ import { map } from 'rxjs/operators';
 export class AuthenticationService {
 
   public username: string = '';
-  public password: string = '';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  protected token: string = ''
 
   constructor(private http: HttpClient) { }
 
   authenticate(username: string, password: string) {
-    return this.http.post(environment.hostUrl + `/auth/signin`,{ username, password },
+    return this.http.post<Login>(environment.hostUrl + `/auth/signin`,{ username, password },
     {headers: this.httpHeaders})
-    .pipe(map((res) => {
-      this.username = username;
-      this.password = password;
-      sessionStorage.setItem('username', username);
+    .pipe(tap((res) => {
+      this.username = res.username;
+      this.token = res.accessToken;
+      sessionStorage.setItem('token', res.accessToken);
     }));
   }
 
-  createBasicAuthToken(username: string, password: string){
-    return 'Basic ' + window.btoa(username + ":" + password);
+  createBasicAuthToken(){
+    return 'Bearer ' + sessionStorage.getItem('token');
   }
 
   isUserLoggedIn() {
-    let user = sessionStorage.getItem('username')
+    let user = sessionStorage.getItem('token')
     return !(user === null)
   }
 
   logOut() {
-    sessionStorage.removeItem('username')
+    sessionStorage.removeItem('token')
   }
 }

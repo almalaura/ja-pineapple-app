@@ -7,16 +7,23 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError,map } from 'rxjs/operators';
 import { User, UserCreate } from '../../models/user';
 import { environment } from '../../../environments/environment';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Injectable()
 export class UserService {
   private urlEndPoint: string = '/users';
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  private httpHeaders: HttpHeaders
   //variable para almacenar todos los usuarios
   usuarios: User[] = [];
   private _users$ = new BehaviorSubject<User[]>([]);
 
-  constructor(private http: HttpClient,private pipe: DecimalPipe) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService) {
+      this.httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.authService.createBasicAuthToken()
+      })
   }
 
   isAdminRole(roles: {id: number, name: string}[]): boolean {
@@ -38,7 +45,11 @@ export class UserService {
   }
   //Crear un usuario
   create(user: User) : Observable<User> {
-    return this.http.post<UserCreate>(`${environment.hostUrl}/auth/signup`, user, {headers: this.httpHeaders}).pipe(
+    const createUser = {
+      ...user,
+      roles: [user.roles]
+    }
+    return this.http.post<UserCreate>(`${environment.hostUrl}/auth/signup`, createUser, {headers: this.httpHeaders}).pipe(
         map(reg => ({
           ...reg,
           roles: this.isAdminRole(reg.roles) ? 'admin' : 'user'
