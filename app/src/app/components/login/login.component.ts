@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
 
   // Click iniciar sesión
   checkLogin() {
-    console.log(this.username, this.password);
     this.loginservice.authenticate(this.username, this.password).subscribe((result) => {
       this.invalidLogin = false;
       //Redireccionar a home
