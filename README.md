@@ -2,7 +2,9 @@
 Este proyecto tiene como finalidad permitir al dueño de un supermercado y a sus empleados administrar fácilmente su inventario.
 
 ## Características en general
+
 Facilita la tarea de llevar el control de inventario de productos(CRUD) y administrar usuarios(CRUD) que accesan al sistema(LOGIN).También cuenta con recuperar contraseña.
+
 
 ## Sobre los servicios 📖
 Utiliza servicios de una api desarrollada en SpringBoot https://github.com/MBlev/ja-pineapple-app-back .
@@ -38,6 +40,7 @@ Ingresar a la plataforma
 
 username: john
 password: 123456
+
 
 # App
 
