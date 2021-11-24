@@ -76,6 +76,6 @@ export class AuthenticationService {
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('rol')
     sessionStorage.removeItem('username')
-    this.router.navigate(['login'])
+    this.router.navigate(['home'])
   }
 }
