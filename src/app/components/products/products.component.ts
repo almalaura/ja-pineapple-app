@@ -56,7 +56,7 @@ export class ProductsComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  //Exportar archivo excel de productos
   onDownloadExcel(): void {
     const data = this.dataSource.data.map(reg => ({
       "Nombre": reg.name,
@@ -67,7 +67,7 @@ export class ProductsComponent implements OnInit {
     }));
     this.excelService.exportAsExcelFile(data, 'Productos');
   }
-
+  //Crear un producto nuevo
   createDialog() {
     const dialogRef = this.dialog.open(FormProductsComponent, {
       width: '40%',
@@ -89,7 +89,7 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-
+  //Actualizar datos de un producto existente en la tabla
   editDialog(product: Product) {
     const dialogRef = this.dialog.open(FormProductsComponent, {
       width: '40%',
@@ -114,7 +114,7 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-
+  //Eliminar los datos de un producto
   delete(product: Product): void {
     if(product.id) {
       Swal.fire({

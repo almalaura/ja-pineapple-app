@@ -2,7 +2,9 @@
 Este proyecto tiene como finalidad permitir al dueño de un supermercado y a sus empleados administrar fácilmente su inventario.
 
 ## Características en general
-Facilita la tarea de llevar el control de inventario de productos y administrar usuarios que accesan al sistema.
+
+Facilita la tarea de llevar el control de inventario de productos(CRUD) y administrar usuarios(CRUD) que accesan al sistema(LOGIN).También cuenta con recuperar contraseña.
+
 
 ## Sobre los servicios 📖
 Utiliza servicios de una api desarrollada en SpringBoot https://github.com/MBlev/ja-pineapple-app-back .
@@ -20,6 +22,7 @@ Utiliza servicios de una api desarrollada en SpringBoot https://github.com/MBlev
 
 ## Ejecutar 🏳️
 Paso 1
+Situarte en la rama dev de git para trabajar en local
 ```
 npm install
 ```
@@ -28,8 +31,15 @@ Paso 2
 ng serve -o
 ```
 Paso 3
+Navega en
 ```
-Navega en http://localhost:4200/
+http://localhost:4200/
+```
+Paso 4
+Ingresar a la plataforma
+
+username: john
+password: 123456
 
 
 # App

@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
   faPlus = faPlus;
   faTrashAlt = faTrashAlt;
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['username', 'email', 'name', 'surname', 'roles', 'created_at', 'actions'];
+  displayedColumns: string[] = ['username', 'email', 'name', 'surname', 'roles', 'actions'];
   users$: Observable<User[]> = this.service.getUsers().pipe(
     tap((data) => {
       this.dataSource = new MatTableDataSource(data);
