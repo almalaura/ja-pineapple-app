@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdSortableHeader } from './directives/sortable.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -16,7 +15,6 @@ import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
 import { FormUserComponent } from './components/users/form-user.component';
 import { LoginComponent } from './components/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component';
 import { ResetPasswordComponent } from './components/login/reset-password.component';
 import { ForgotPasswordComponent } from './components/login/forgot-password.component';
 
@@ -43,10 +41,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     UsersComponent,
     FormUserComponent,
     LoginComponent,
-    LogoutComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
-    NgbdSortableHeader,
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ export class AuthGaurdService implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthenticationService) { }
-
+    //Protege las rutas, redirecciona al login si no esta logueado e intenta ingresar a una de ellas
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
       if (this.authService.isUserLoggedIn())
         return true;

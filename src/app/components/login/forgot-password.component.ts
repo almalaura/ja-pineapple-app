@@ -12,14 +12,14 @@ import Swal from 'sweetalert2';
 })
 export class ForgotPasswordComponent implements OnInit {
 
+  form: FormGroup
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder) { }
-
-
-  form: FormGroup
+    protected fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({

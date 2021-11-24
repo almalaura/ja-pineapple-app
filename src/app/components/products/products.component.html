@@ -19,7 +19,7 @@
               <fa-icon [icon]="faFileExcel"></fa-icon>
               EXPORTAR
             </button>
-            <button mat-flat-button (click)="createDialog()" type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
+            <button *ngIf="loginService.isUserAdmin()" mat-flat-button (click)="createDialog()" type="button" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
               <fa-icon [icon]="faPlus"></fa-icon>
               NUEVO
             </button>
@@ -80,10 +80,10 @@
 
             </th>
             <td class="pt-3" mat-cell *matCellDef="let element">
-              <button class="icon edit-btn" (click)="editDialog(element)">
+              <button *ngIf="loginService.isUserAdmin()" class="icon edit-btn" (click)="editDialog(element)">
                 <fa-icon [icon]="faPen"></fa-icon>
               </button>
-              <button class="icon delete-btn" (click)='delete(element)'>
+              <button *ngIf="loginService.isUserAdmin()" class="icon delete-btn" (click)='delete(element)'>
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
               </button>
             </td>
@@ -101,5 +101,4 @@
       </div>
     </form>
   </div>
-
 </div>

@@ -1,9 +1,9 @@
-import {Injectable, PipeTransform} from '@angular/core';
-import {BehaviorSubject, Observable, of,throwError, Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of,throwError, Subject} from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { Product } from '../../models/product';
-import { environment } from '../../../environments/environment';
+import { environment } from 'src/environments/environment';
+import { Product } from 'src/app/models/product';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Injectable({
@@ -24,13 +24,11 @@ export class ProductService {
   }
   //Obtener todas las categorias de producto
   getCategories(){
-    return this.http.get(`${environment.hostUrl}/categories`)
+    return this.http.get(`${environment.hostUrl}/categories`);
   }
   //Obtener todos los datos de productos
   getProducts(): Observable<Product[]> {
-    let res = this.http.get<Product[]>(environment.hostUrl+this.urlEndPoint)
-    console.log(res)
-    return res
+    return this.http.get<Product[]>(environment.hostUrl+this.urlEndPoint)
   }
   //crear un producto nuevo
   create(product: Product) : Observable<Product> {

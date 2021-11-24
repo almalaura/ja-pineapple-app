@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import Swal from 'sweetalert2';
 import { UserService } from '../users/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reset-password',
@@ -17,7 +17,7 @@ export class ResetPasswordComponent implements OnInit {
 
   form: FormGroup
   id$: Observable<number>
-  
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -39,7 +39,7 @@ export class ResetPasswordComponent implements OnInit {
     )
   }
 
-  checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+  checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => {
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value
     return pass === confirmPass ? null : { notSame: true }
@@ -49,8 +49,8 @@ export class ResetPasswordComponent implements OnInit {
     if (this.form.valid) {
       this.authService.resetPassword(id, this.form.get('confirmPassword')?.value).subscribe(
         (_) => {
-          Swal.fire('Contraseña restablecidad con exito')
-          this.router.navigate(['/login'])
+          Swal.fire('Contraseña restablecidad con exito');
+          this.router.navigate(['/login']);
         }
       )
     }

@@ -27,8 +27,8 @@
         <a class="nav-link" *ngIf="!loginService.isUserLoggedIn()" routerLink="/login"  [routerLinkActive]="['active','text-orange']">Iniciar sesión</a>
       </li>
       <!-- Habilitar si se encuentra logueado el usuario !-->
-      <li class="nav-item d-flex">
-        <a class="nav-link" *ngIf="loginService.isUserLoggedIn()" routerLink="/logout"  [routerLinkActive]="['active','text-orange']">Cerrar sesión</a>
+      <li class="nav-item d-flex" *ngIf="loginService.isUserLoggedIn()">
+        <button class="btn btn-outline-secondary input-control-rounded" (click)="loginService.logOut()">Cerrar sesión</button>
       </li>
         <!-- /--->
     </ul>

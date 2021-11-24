@@ -16,7 +16,7 @@
         </div>
         <div class="col-6">
           <button mat-flat-button (click)="createDialog()" class="btn bg-green-light form-control-rounded px-4 mx-2 float-right">
-            <mat-icon>add</mat-icon>
+            <fa-icon [icon]="faPlus"></fa-icon>
             NUEVO
           </button>
         </div>
@@ -28,7 +28,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   Usuario
               </th>
-              <td mat-cell *matCellDef="let element">
+              <td class="pt-2" mat-cell *matCellDef="let element">
                   {{ element.username }}
               </td>
           </ng-container>
@@ -37,7 +37,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   Correo
               </th>
-              <td mat-cell *matCellDef="let element">
+              <td class="pt-2" mat-cell *matCellDef="let element">
                   {{ element.email}}
               </td>
           </ng-container>
@@ -46,7 +46,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Nombre
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td class="pt-2" mat-cell *matCellDef="let element">
                 {{ element.name}}
             </td>
           </ng-container>
@@ -55,7 +55,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Apellido
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td class="pt-2" mat-cell *matCellDef="let element">
                 {{ element.surname}}
             </td>
           </ng-container>
@@ -64,7 +64,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Rol
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td class="pt-2" mat-cell *matCellDef="let element">
                 {{ element.roles}}
             </td>
           </ng-container>
@@ -73,28 +73,28 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   Creado
               </th>
-              <td mat-cell *matCellDef="let element">
+              <td class="pt-2" mat-cell *matCellDef="let element">
                   {{ element.created_at }}
               </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>
-                
+
             </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-mini-fab color="primary" (click)="editDialog(element)">
-                <mat-icon>edit</mat-icon>
+            <td class="pt-2" mat-cell *matCellDef="let element">
+              <button class="icon edit-btn" color="primary" (click)="editDialog(element)">
+                <fa-icon [icon]="faPen"></fa-icon>
               </button>
-              <button mat-mini-fab color="success" class="ml-2" (click)='delete(element)'>
-                <mat-icon>delete_outline</mat-icon>
+              <button class="icon delete-btn" color="success" (click)='delete(element)'>
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
               </button>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns" class="clickeable-row"></tr>
           <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">
+              <td class="pt-2" mat-cell colspan="4">
                   No hay datos
               </td>
           </tr>

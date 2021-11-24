@@ -1,0 +1,18 @@
+.icon {
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: none;
+}
+
+.edit-btn {
+  background: #414141;
+  color: #E5E5E5;
+}
+
+.delete-btn {
+  background: #FF9800;
+  color: #1C313A;
+  margin-left: 6px;
+}
