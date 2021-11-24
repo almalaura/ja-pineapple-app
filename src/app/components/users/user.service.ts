@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable, of, throwError, Subject} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError,map } from 'rxjs/operators';
 import { User, UserCreate } from '../../models/user';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Injectable()
