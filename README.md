@@ -5,9 +5,11 @@ Este proyecto tiene como finalidad permitir al dueño de un supermercado y a sus
 
 Facilita la tarea de llevar el control de inventario de productos(CRUD) y administrar usuarios(CRUD) que accesan al sistema(LOGIN).También cuenta con recuperar contraseña.
 
+## Sobre el diseño
+Los prototipos fueron diseñados en [Figma](https://www.figma.com/file/4jsqlUTE1D8JqRmEE5D0ro/Pineapple-Supermarket-App?node-id=0%3A1).
 
 ## Sobre los servicios 📖
-Utiliza servicios de una api desarrollada en SpringBoot https://github.com/MBlev/ja-pineapple-app-back .
+Utiliza servicios de una api desarrollada en SpringBoot almacenada en [Github](https://github.com/MBlev/ja-pineapple-app-back).
 
 ## Tecnologias 🛠️
 - Angular 12.2.8
