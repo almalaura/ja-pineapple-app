@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  //hostUrl: 'http://localhost:8080/api'
-  hostUrl: 'https://ja-pineapple-app.herokuapp.com/api'
+  hostUrl: 'http://localhost:8080/api'
 };
 
 /*

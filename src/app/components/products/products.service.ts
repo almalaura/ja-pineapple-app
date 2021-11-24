@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable, of,throwError, Subject} from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Product } from '../../models/product';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Injectable({
