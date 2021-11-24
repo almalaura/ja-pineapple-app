@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../service/authentication.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +28,7 @@ export class LoginComponent implements OnInit {
       //Redireccionar a home
       this.router.navigate(['home']);
     }, () => {
-      window.location.reload();
-      //Mostrar mensaje de error
+      //Mostrar mensaje de error al usuario
       this.invalidLogin = true;
     });
   }

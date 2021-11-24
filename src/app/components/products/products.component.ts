@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTrashAlt, faPen, faFileExcel, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {Observable} from 'rxjs';
-import {Product} from '../../models/product';
-import {ProductService} from './products.service';
-import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormProductsComponent } from './form.component';
 import { FormGroup } from '@angular/forms';
 import { ExcelService } from 'src/app/service/excel.service';
+import { Product } from 'src/app/models/product';
+import { ProductService } from './products.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-products',
@@ -25,7 +26,6 @@ export class ProductsComponent implements OnInit {
   faFileExcel = faFileExcel;
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['id','name', 'category', 'description', 'quantity', 'unitPrice', 'actions'];
-
   products$: Observable<Product[]> = this.service.getProducts().pipe(
     tap((data) => {
       this.dataSource = new MatTableDataSource(data);
@@ -35,14 +35,16 @@ export class ProductsComponent implements OnInit {
       });
     })
   );
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    public loginService: AuthenticationService,
     public service: ProductService,
     public excelService: ExcelService,
-    public dialog: MatDialog){
-  }
+    public dialog: MatDialog
+  ){ }
 
   ngOnInit(): void {
   }
@@ -63,8 +65,9 @@ export class ProductsComponent implements OnInit {
       "Cantidad": reg.quantity,
       "Precio unitario": reg.unitPrice,
     }));
-    this.excelService.exportAsExcelFile(data, 'Productos')
+    this.excelService.exportAsExcelFile(data, 'Productos');
   }
+
   createDialog() {
     const dialogRef = this.dialog.open(FormProductsComponent, {
       width: '40%',
@@ -102,7 +105,7 @@ export class ProductsComponent implements OnInit {
           (reg) => {
             const indexTable = this.dataSource.data.indexOf(product);
             if (indexTable !== -1) {
-              const list = this.dataSource.data
+              const list = this.dataSource.data;
               list[indexTable] = reg;
               this.dataSource.data = list
             }
@@ -121,7 +124,6 @@ export class ProductsComponent implements OnInit {
         confirmButtonText: 'Si',
         denyButtonText: `Cancelar`,
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           this.service.delete(product.id).subscribe(
             () => {
@@ -131,7 +133,6 @@ export class ProductsComponent implements OnInit {
           )
         }
       })
-
     }
   }
 

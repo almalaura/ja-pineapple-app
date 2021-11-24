@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {DecimalPipe} from '@angular/common';
 import {Observable} from 'rxjs';
-
+import { faTrashAlt, faPen, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {User} from '../../models/user';
 import {UserService} from './user.service';
 import { MatSort } from '@angular/material/sort';
@@ -19,6 +19,9 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  faPen = faPen;
+  faPlus = faPlus;
+  faTrashAlt = faTrashAlt;
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['username', 'email', 'name', 'surname', 'roles', 'created_at', 'actions'];
   users$: Observable<User[]> = this.service.getUsers().pipe(
